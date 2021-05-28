@@ -21,7 +21,10 @@ void draw(){
   if (state=="pretitle") {
   imageMode(CENTER);
   image(titleScreen, width/2, height/2, width, height );
-  
+    if(mousePressed){
+     titleScreen.stop();
+     state = "title";
+    }
     if (titleScreen.time() >= titleScreen.duration()){
       state = "title";
       playTitle();
@@ -31,11 +34,15 @@ void draw(){
   if (state == "title"){
    title();
   }
-  
+  if (state == "options"){
+   options();
+   
+  }
     
 }
 
 void title(){
+  background (0);
   fill(204, 153, 255);
   textSize(600);
   textFont(font);
