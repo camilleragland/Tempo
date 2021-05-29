@@ -1,78 +1,81 @@
 import processing.video.*;
 import processing.sound.*;
+import lord_of_galaxy.timing_utils.*;
 
 SoundFile titleMusic;
-Movie titleScreen;
+Movie pretitleScreen;
 String state = "pretitle"; 
 PFont font;
 
-int savedTime;
-int totalTime = 60000;
+int minute = 60000;
+Stopwatch titleWatch;
 
 
 void setup() {
-   fullScreen();
+  fullScreen();
   imageMode(CENTER);
-  titleScreen = new Movie( this, "titleScreen.mov");
-  titleScreen.play();
+  pretitleScreen = new Movie( this, "titleScreen.mov");
+
   titleMusic = new SoundFile (this, "title.wav");
   titleMusic.amp(0.3);
-  font = createFont("font.TTF", 300,true);
-  
-  savedTime = millis();
+  font = createFont("font.TTF", 300, true);
+
+  //timer to go back to the video
+  titleWatch = new Stopwatch(this);
+  titleWatch.start();
 }
 
-void draw(){
-  if (state=="pretitle") {
-  
-  imageMode(CENTER);
-  image(titleScreen, width/2, height/2, width, height );
-    if(mousePressed){
-     titleScreen.stop();
-     titleScreen.jump(0.0);
-     state = "title";
-     savedTime = 0;
+void draw() {
+  if (state=="pretitle") { //pretitle state
+    pretitleScreen.play();
+
+    imageMode(CENTER);
+    image(pretitleScreen, width/2, height/2, width, height );
+
+    if (pretitleScreen.time() >= pretitleScreen.duration() || mousePressed) { 
+      //sees if the video has stopped and goes to next state
+      pretitleScreen.stop();
+      state = "title";
+      titleWatch.restart();
+      playTitleSong();
     }
-    
-    if (titleScreen.time() >= titleScreen.duration()){
-      
-      playTitle();
-      
-    }
-    
   }
-  if (state == "title"){
-   savedTime = 0;
-   title();
+  if (state == "title") {
+
+    title();
   }
-  if (state == "options"){
-   options();
-   
+
+  if (state == "options") {
+    options();
   }
-    
 }
 
-void title(){
-  savedTime = 0;
+//the title screen of the game
+void title() {
   background (0);
   fill(204, 153, 255);
   textSize(600);
   textFont(font);
-  text("Tempo",width/2-400, height/2-200);
-  
-  int titleTime = millis() - savedTime;
-    if (titleTime > totalTime){
-     state = "pretitle";
-     titleScreen.play();
-     savedTime = 0;
+  text("Tempo", width/2-400, height/2-200);
+
+  if (titleWatch.time() >= minute) { //if title stopwatch gets to time goes to Pretitle
+    state = "pretitle";
+    stopTitleSong();
   }
 }
 
-void playTitle(){
-titleMusic.play();
-titleMusic.loop();
+
+//plays title music
+void playTitleSong() {
+  titleMusic.loop();
 }
 
-void movieEvent(Movie titleScreen){
-  titleScreen.read();
+//stops title music
+void stopTitleSong() {
+  titleMusic.stop();
+}
+
+//reads the minutes on the title movie
+void movieEvent(Movie pretitleScreen) {
+  pretitleScreen.read();
 }
