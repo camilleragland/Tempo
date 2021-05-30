@@ -6,8 +6,14 @@ SoundFile titleMusic;
 Movie pretitleScreen;
 String state = "pretitle"; 
 PFont font;
+PImage startButton;
+PImage startPressed;
+PImage optionsButton;
+PImage optionsPressed;
+PImage quitButton;
+PImage quitPressed;
 
-int minute = 60000;
+int minute = 150000;
 Stopwatch titleWatch;
 
 
@@ -20,7 +26,14 @@ void setup() {
   titleMusic.amp(0.3);
   font = createFont("font.TTF", 300, true);
 
-  //timer to go back to the video
+  startButton = loadImage("startButton.png");
+  startPressed = loadImage("startPressed.png");
+  optionsButton = loadImage("optionsButton.png");
+  optionsPressed = loadImage("optionsPressed.png");
+  quitButton = loadImage("quitButton.png");
+  quitPressed = loadImage("quitPressed.png");
+
+  //timer to go back to the pretitle video
   titleWatch = new Stopwatch(this);
   titleWatch.start();
 }
@@ -57,6 +70,22 @@ void title() {
   textSize(600);
   textFont(font);
   text("Tempo", width/2-400, height/2-200);
+
+  image(startButton, width/2, height/2 + 100, 400, 400);
+  if ((mouseX < ((width/2)+150) && mouseX > (width/2-150)) &&(mouseY < ((height/2)+150) && mouseY > ((height/2)+45))) {
+   image(startPressed, width/2, height/2+80, 400, 400);
+  }
+//(mouseX < ((width/2)+150) && mouseX > (width/2+200))
+image(optionsButton, width/2, height/2 + 225, 400, 400);
+  if ((mouseX < ((width/2)+150) && mouseX > (width/2-150))&& ((mouseY < ((height/2)+280) && mouseY > ((height/2)+175)))) {
+    image(optionsPressed, width/2, height/2-10 + 225, 400, 400);
+  }
+  
+  image(quitButton, width/2, height/2 + 350, 400, 400);
+  if ((mouseX < ((width/2)+150) && mouseX > (width/2-150))&& ((mouseY < ((height/2)+410) && mouseY > ((height/2)+300)))) {
+    image(quitPressed, width/2, height/2+340, 400, 400);
+  }
+  //quitPressed;
 
   if (titleWatch.time() >= minute) { //if title stopwatch gets to time goes to Pretitle
     state = "pretitle";
