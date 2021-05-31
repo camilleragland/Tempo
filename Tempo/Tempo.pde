@@ -2,6 +2,7 @@ import processing.video.*;
 import processing.sound.*;
 import lord_of_galaxy.timing_utils.*;
 
+//title data
 SoundFile titleMusic;
 Movie pretitleScreen;
 String state = "pretitle"; 
@@ -12,10 +13,12 @@ PImage optionsButton;
 PImage optionsPressed;
 PImage quitButton;
 PImage quitPressed;
+PImage backButton;
+PImage backPressed;
 
-int minute = 150000;
+int fourMinutes = 150000;
 Stopwatch titleWatch;
-
+//title data ends
 
 void setup() {
   fullScreen();
@@ -32,6 +35,8 @@ void setup() {
   optionsPressed = loadImage("optionsPressed.png");
   quitButton = loadImage("quitButton.png");
   quitPressed = loadImage("quitPressed.png");
+  backButton = loadImage("backButton.png");
+  backPressed = loadImage ("backPressed");
 
   //timer to go back to the pretitle video
   titleWatch = new Stopwatch(this);
@@ -73,21 +78,32 @@ void title() {
 
   image(startButton, width/2, height/2 + 100, 400, 400);
   if ((mouseX < ((width/2)+150) && mouseX > (width/2-150)) &&(mouseY < ((height/2)+150) && mouseY > ((height/2)+45))) {
-   image(startPressed, width/2, height/2+80, 400, 400);
+    image(startPressed, width/2, height/2+80, 400, 400);
+    //if start is pressed goes to save data
+    if ( (state == "title") && (mousePressed)&& ((mouseX < ((width/2)+150) && mouseX > (width/2-150)) &&(mouseY < ((height/2)+150) && mouseY > ((height/2)+45))) ) {
+      state = "load game";
+    }
   }
-//(mouseX < ((width/2)+150) && mouseX > (width/2+200))
-image(optionsButton, width/2, height/2 + 225, 400, 400);
+
+  image(optionsButton, width/2, height/2 + 225, 400, 400);
   if ((mouseX < ((width/2)+150) && mouseX > (width/2-150))&& ((mouseY < ((height/2)+280) && mouseY > ((height/2)+175)))) {
     image(optionsPressed, width/2, height/2-10 + 225, 400, 400);
+    //if options is pressed goes to ptions menu
+    if ( (state == "title") &&  ( mousePressed )&& ((mouseX < ((width/2)+150) && mouseX > (width/2-150))&& ((mouseY < ((height/2)+280) && mouseY > ((height/2)+175)))) ) {
+      state = "options";
+    }
   }
-  
+
   image(quitButton, width/2, height/2 + 350, 400, 400);
   if ((mouseX < ((width/2)+150) && mouseX > (width/2-150))&& ((mouseY < ((height/2)+410) && mouseY > ((height/2)+300)))) {
     image(quitPressed, width/2, height/2+340, 400, 400);
+    //if quit is presed ends game
+    if ((state == "title") && (mousePressed) && ((mouseX < ((width/2)+150) && mouseX > (width/2-150))&& ((mouseY < ((height/2)+410) && mouseY > ((height/2)+300)))) ) {
+      exit();
+    }
   }
-  //quitPressed;
 
-  if (titleWatch.time() >= minute) { //if title stopwatch gets to time goes to Pretitle
+  if (titleWatch.time() >= fourMinutes) { //if title stopwatch gets to time goes to Pretitle
     state = "pretitle";
     stopTitleSong();
   }
