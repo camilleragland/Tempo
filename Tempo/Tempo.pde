@@ -36,7 +36,7 @@ void setup() {
   quitButton = loadImage("quitButton.png");
   quitPressed = loadImage("quitPressed.png");
   backButton = loadImage("backButton.png");
-  backPressed = loadImage ("backPressed");
+  backPressed = loadImage ("backPressed.png");
 
   //timer to go back to the pretitle video
   titleWatch = new Stopwatch(this);
