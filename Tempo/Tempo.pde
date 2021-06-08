@@ -1,6 +1,7 @@
 import processing.video.*;
 import processing.sound.*;
 import lord_of_galaxy.timing_utils.*;
+import controlP5.*;
 
 //title data
 SoundFile titleMusic;
@@ -31,6 +32,8 @@ Stopwatch titleWatch;
 void setup() {
   fullScreen();
   imageMode(CENTER);
+  
+
   pretitleScreen = new Movie( this, "titleScreen.mov");
 
   titleMusic = new SoundFile (this, "title.wav");
@@ -55,6 +58,9 @@ void setup() {
   titleWatch.start();
   
   optionsFont = createFont("font.TTF", 100, true);
+  if (state == "options"){
+    
+  }
 }
 
 void draw() {
@@ -78,8 +84,10 @@ void draw() {
   }
 
   if (state == "options") {
+    optionsSetup();
     options();
   }
+  
 }
 
 //the title screen of the game
