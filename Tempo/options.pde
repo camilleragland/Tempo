@@ -8,4 +8,9 @@ void options() {
       state = "title";
     }
   }
+  
+  //slider for music 
+  textFont(optionsFont);
+  textSize(85);
+  text("Sound", width/2-400, height/2-300);
 }

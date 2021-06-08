@@ -6,15 +6,23 @@ import lord_of_galaxy.timing_utils.*;
 SoundFile titleMusic;
 Movie pretitleScreen;
 String state = "pretitle"; 
-PFont font;
+
+PFont titleFont;
+PFont optionsFont;
+
 PImage startButton;
 PImage startPressed;
 PImage optionsButton;
 PImage optionsPressed;
 PImage quitButton;
 PImage quitPressed;
+
 PImage backButton;
 PImage backPressed;
+
+PImage sliderBar;
+PImage sliderButton;
+
 
 int fourMinutes = 150000;
 Stopwatch titleWatch;
@@ -27,7 +35,7 @@ void setup() {
 
   titleMusic = new SoundFile (this, "title.wav");
   titleMusic.amp(0.3);
-  font = createFont("font.TTF", 300, true);
+  titleFont = createFont("font.TTF", 300, true);
 
   startButton = loadImage("startButton.png");
   startPressed = loadImage("startPressed.png");
@@ -35,12 +43,18 @@ void setup() {
   optionsPressed = loadImage("optionsPressed.png");
   quitButton = loadImage("quitButton.png");
   quitPressed = loadImage("quitPressed.png");
+  
   backButton = loadImage("backButton.png");
   backPressed = loadImage ("backPressed.png");
+  
+  sliderBar = loadImage("sliderBar.png");
+  sliderButton = loadImage("sliderButton.png");
 
   //timer to go back to the pretitle video
   titleWatch = new Stopwatch(this);
   titleWatch.start();
+  
+  optionsFont = createFont("font.TTF", 100, true);
 }
 
 void draw() {
@@ -73,7 +87,7 @@ void title() {
   background (0);
   fill(204, 153, 255);
   textSize(600);
-  textFont(font);
+  textFont(titleFont);
   text("Tempo", width/2-400, height/2-200);
 
   image(startButton, width/2, height/2 + 100, 400, 400);
