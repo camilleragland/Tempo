@@ -14,6 +14,7 @@ PFont titleFont;
 float titleFontSize = (displayWidth * displayHeight) + 0.75;
 PFont optionsFont;
 float optionsFontSize = (displayWidth * displayHeight) + 0.50 ;
+PFont dialogueFont;
 
 PImage startButton;
 PImage startPressed;
@@ -35,6 +36,12 @@ PImage windowPressed;
 PImage fullButton;
 PImage fullPressed;
 
+PImage textBox;
+int count = 0;
+String dialogue;
+
+
+
 int fourMinutes = 150000;
 Stopwatch titleWatch;
 //title data ends
@@ -43,7 +50,7 @@ void setup() {
   surface.setResizable(true);
   fullScreen();
   imageMode(CENTER);
-  
+
 
   pretitleScreen = new Movie( this, "titleScreen.mov");
 
@@ -57,27 +64,30 @@ void setup() {
   optionsPressed = loadImage("optionsPressed.png");
   quitButton = loadImage("quitButton.png");
   quitPressed = loadImage("quitPressed.png");
-  
+
   backButton = loadImage("backButton.png");
   backPressed = loadImage ("backPressed.png");
-  
+
   onButton = loadImage ("onButton.png");
   onPressed = loadImage ("onPressed.png");
   offButton = loadImage ("offButton.png");
   offPressed = loadImage ("offPressed.png");
-  
+
   fullButton = loadImage ("fullButton.png");
   fullPressed = loadImage ("fullPressed.png");
   windowButton = loadImage ("windowButton.png");
   windowPressed = loadImage ("windowPressed.png");
 
+  textBox = loadImage ("textBox.png");
+
   //timer to go back to the pretitle video
   titleWatch = new Stopwatch(this);
   titleWatch.start();
-  
+
   optionsFont = createFont("font.TTF", 100, true);
-  if (state == "options"){
-    
+  dialogueFont = createFont("font.TTF", 100, true);
+
+  if (state == "options") {
   }
 }
 
@@ -105,7 +115,10 @@ void draw() {
   if (state == "options") {
     options();
   }
-  
+
+  if (state == "start game") {
+    episode1();
+  }
 }
 
 //the title screen of the game
@@ -121,7 +134,7 @@ void title() {
     image(startPressed, displayWidth/2, displayHeight/2+80, 400, 400);
     //if start is pressed goes to save data
     if ( (state == "title") && (mousePressed)&& ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150)) &&(mouseY < ((displayHeight/2)+150) && mouseY > ((displayHeight/2)+45))) ) {
-      state = "load game";
+      state = "start game";
     }
   }
 
@@ -153,10 +166,9 @@ void title() {
 //plays title music
 void playTitleSong() {
   if (playMusic == true) {
-  titleMusic.loop();
-  }
-  else if (playMusic == false){
-  stopTitleSong();
+    titleMusic.loop();
+  } else if (playMusic == false) {
+    stopTitleSong();
   }
 }
 
@@ -168,4 +180,12 @@ void stopTitleSong() {
 //reads the minutes on the title movie
 void movieEvent(Movie pretitleScreen) {
   pretitleScreen.read();
+}
+
+//will typewrite the text
+void textAnimation (String dialogue) {
+  text(dialogue.substring(0, count), displayWidth/2 - 650, displayHeight/2 + 250);
+  if (count < dialogue.length()) {
+    count++;
+  }
 }
