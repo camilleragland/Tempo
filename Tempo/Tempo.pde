@@ -85,7 +85,7 @@ void setup() {
   titleWatch.start();
 
   optionsFont = createFont("font.TTF", 100, true);
-  dialogueFont = createFont("font.TTF", 100, true);
+  dialogueFont = createFont("dialogueFont.TTF", 100, true);
 
   if (state == "options") {
   }
