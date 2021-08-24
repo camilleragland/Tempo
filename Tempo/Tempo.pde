@@ -212,8 +212,9 @@ void mouseClicked() {
     }
   } else  if (state == gameState.E1_S1) {
     episode1();
+    state = gameState.E1_S1F ;
     println ("the state is " + state);
-  } else if (state == gameState.E1_S1) {
+  } else if (state == gameState.E1_S1F) {
     scene1Finished();
   }
 }
