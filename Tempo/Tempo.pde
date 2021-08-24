@@ -7,7 +7,22 @@ import controlP5.*;
 SoundFile titleMusic;
 Movie pretitleScreen;
 boolean playMusic = true;
-String state = "pretitle"; 
+
+public enum gameState {
+  TITLE_STATE, 
+    EXIT_STATE, 
+    PRETITLE_STATE, 
+    OPTIONS_STATE, 
+    E1_S1, 
+    E1_S1F
+};
+
+//int pretitle_state = 0;
+//int title_state = 1;
+//int start_state = 2;
+//int options_state = 3;
+//int exit_state = 4;
+gameState state = gameState.PRETITLE_STATE; 
 
 
 PFont titleFont;
@@ -87,36 +102,31 @@ void setup() {
   optionsFont = createFont("font.TTF", 100, true);
   dialogueFont = createFont("dialogueFont.TTF", 100, true);
 
-  if (state == "options") {
+  if (state == gameState.OPTIONS_STATE) {
   }
 }
 
 void draw() {
-  if (state=="pretitle") { //pretitle state
+  println ("the state is " + state);
+  if (state == gameState.PRETITLE_STATE) { //pretitle state
     pretitleScreen.play();
 
     imageMode(CENTER);
     image(pretitleScreen, displayWidth/2, displayHeight/2, displayWidth, displayHeight );
-
-    if (pretitleScreen.time() >= pretitleScreen.duration() || mousePressed) { 
-      //sees if the video has stopped and goes to next state
+    if (pretitleScreen.time() >= pretitleScreen.duration()) {
+      state = gameState.TITLE_STATE;
+      //if in pretitle state, if clicked goes to title
       pretitleScreen.stop();
-      state = "title";
       titleWatch.restart();
       playMusic = true;
       playTitleSong();
     }
-  }
-  if (state == "title") {
+  } else if (state == gameState.TITLE_STATE) {
 
     title();
-  }
-
-  if (state == "options") {
+  } else if (state == gameState.OPTIONS_STATE) {
     options();
-  }
-
-  if (state == "start game") {
+  } else if (state == gameState.TITLE_STATE) {
     episode1();
   }
 }
@@ -132,32 +142,20 @@ void title() {
   image(startButton, displayWidth/2, displayHeight/2 + 100, 400, 400);
   if ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150)) &&(mouseY < ((displayHeight/2)+150) && mouseY > ((displayHeight/2)+45))) {
     image(startPressed, displayWidth/2, displayHeight/2+80, 400, 400);
-    //if start is pressed goes to save data
-    if ( (state == "title") && (mousePressed)&& ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150)) &&(mouseY < ((displayHeight/2)+150) && mouseY > ((displayHeight/2)+45))) ) {
-      state = "start game";
-    }
   }
 
   image(optionsButton, displayWidth/2, displayHeight/2 + 225, 400, 400);
   if ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150))&& ((mouseY < ((displayHeight/2)+280) && mouseY > ((displayHeight/2)+175)))) {
     image(optionsPressed, displayWidth/2, displayHeight/2-10 + 225, 400, 400);
-    //if options is pressed goes to ptions menu
-    if ( (state == "title") &&  ( mousePressed )&& ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150))&& ((mouseY < ((displayHeight/2)+280) && mouseY > ((displayHeight/2)+175)))) ) {
-      state = "options";
-    }
   }
 
   image(quitButton, displayWidth/2, displayHeight/2 + 350, 400, 400);
   if ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150))&& ((mouseY < ((displayHeight/2)+410) && mouseY > ((displayHeight/2)+300)))) {
     image(quitPressed, displayWidth/2, displayHeight/2+340, 400, 400);
-    //if quit is presed ends game
-    if ((state == "title") && (mousePressed) && ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150))&& ((mouseY < ((displayHeight/2)+410) && mouseY > ((displayHeight/2)+300)))) ) {
-      exit();
-    }
   }
 
   if (titleWatch.time() >= fourMinutes) { //if title stopwatch gets to time goes to Pretitle
-    state = "pretitle";
+    state = gameState.PRETITLE_STATE;
     stopTitleSong();
   }
 }
@@ -187,5 +185,35 @@ void textAnimation (String dialogue) {
   text(dialogue.substring(0, count), displayWidth/2 - 650, displayHeight/2 + 250);
   if (count < dialogue.length()) {
     count++;
+  }
+}
+
+//mouse clicked events
+void mouseClicked() {
+  if (state == gameState.PRETITLE_STATE) {
+    state = gameState.TITLE_STATE;
+    //if in pretitle state, if clicked goes to title
+    pretitleScreen.stop();
+    titleWatch.restart();
+    playMusic = true;
+    playTitleSong();
+  } else if (state == gameState.TITLE_STATE) {
+    //if start is pressed goes to start game
+    if ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150)) &&(mouseY < ((displayHeight/2)+150) && mouseY > ((displayHeight/2)+45))) {
+      state = gameState.E1_S1;
+    }
+    //if options is pressed goes to options menu
+    if ((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150))&& ((mouseY < ((displayHeight/2)+280) && mouseY > ((displayHeight/2)+175)))) {
+      state = gameState.OPTIONS_STATE;
+    }
+    //exits out
+    if (((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150))&& ((mouseY < ((displayHeight/2)+410) && mouseY > ((displayHeight/2)+300)))) ) {
+      exit();
+    }
+  } else  if (state == gameState.E1_S1) {
+    episode1();
+    println ("the state is " + state);
+  } else if (state == gameState.E1_S1) {
+    scene1Finished();
   }
 }
