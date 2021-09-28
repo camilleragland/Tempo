@@ -12,7 +12,8 @@ public enum gameState {
   TITLE_STATE, 
     EXIT_STATE, 
     PRETITLE_STATE, 
-    OPTIONS_STATE, 
+    OPTIONS_STATE,
+    START_STATE,
     E1_S1, 
     E1_S1F
 };
@@ -122,12 +123,11 @@ void draw() {
       playTitleSong();
     }
   } else if (state == gameState.TITLE_STATE) {
-
     title();
   } else if (state == gameState.OPTIONS_STATE) {
     options();
-  } else if (state == gameState.TITLE_STATE) {
-    episode1();
+  } else if (state == gameState.START_STATE) {
+    scene1();
   }
 }
 
@@ -210,8 +210,9 @@ void mouseClicked() {
     if (((mouseX < ((displayWidth/2)+150) && mouseX > (displayWidth/2-150))&& ((mouseY < ((displayHeight/2)+410) && mouseY > ((displayHeight/2)+300)))) ) {
       exit();
     }
-  } else  if (state == gameState.E1_S1) {
-    episode1();
+  } 
+  if (state == gameState.E1_S1) {
+    
     state = gameState.E1_S1F ;
     println ("the state is " + state);
   } else if (state == gameState.E1_S1F) {

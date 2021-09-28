@@ -1,8 +1,4 @@
 
-void episode1() {
-    scene1(); 
-}
-
 void scene1() {
 
   background(0);
@@ -13,9 +9,8 @@ void scene1() {
 
   String dialogue = "Beep Beep! Beep Beep! Beep Beep!";
   textAnimation(dialogue);
-  
-  alarmClock();
 
+  alarmClock();
 }
 
 void scene1Finished() {
@@ -28,15 +23,14 @@ void scene1Finished() {
 
   String dialogue1 = "Beep Beep! Beep Beep! Beep Beep!";
   text(dialogue1, displayWidth/2 - 650, displayHeight/2 + 250);
-  
+
   PImage alarmClock;
   alarmClock = loadImage ("alarmClock.png");
   image(alarmClock, displayWidth/2 - 250, displayHeight/2 - 100, 600, 600);
-  
 }
 
 void alarmClock() {
-  
+
   //shakes alarm clock
   float deg = 90.0;
   float rad = radians (deg);
@@ -54,5 +48,4 @@ void alarmClock() {
   PImage alarmClock;
   alarmClock = loadImage ("alarmClock.png");
   image(alarmClock, displayWidth/2 - 250, displayHeight/2 - 200, 600, 600);
-  
 }
